@@ -871,6 +871,7 @@ struct nvram_pair router_defaults[] = {
 	{ "easytier_api_host", "" },
 	{ "easytier_uuid", "" },
 	{ "easytier_geoip", "" },
+	{ "easytier_extra_args", "" },
 #endif
 
 #if defined(APP_BAFA)
@@ -927,6 +928,8 @@ struct nvram_pair router_defaults[] = {
 	{ "vnts_web_wan", "0" },
 	{ "vnts_bin", "" },
 	{ "vnts_log", "0" },
+	{ "vnts_disable_group", "0" },
+	{ "vnts_disable_relay", "0" },
 #endif
 
 #if defined(APP_VNTCLI)
@@ -956,6 +959,7 @@ struct nvram_pair router_defaults[] = {
 	{ "vntcli_relay", "0" },
 	{ "vntcli_bin", "" },
 	{ "vntcli_wan", "" },
+	{ "vntcli_disable_relay", "0" },
 	{ "vntcli_routenum_x", "0" },
 	{ "vntcli_mappnum_x", "0" },
 #endif

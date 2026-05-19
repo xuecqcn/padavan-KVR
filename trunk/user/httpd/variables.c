@@ -1005,6 +1005,8 @@
 			{"vnts_web_wan", "", NULL, EVM_RESTART_VNTS},
 			{"vnts_bin", "", NULL, EVM_RESTART_VNTS},
 			{"vnts_log", "", NULL, EVM_RESTART_VNTS},
+			{"vnts_disable_group", "", NULL, EVM_RESTART_VNTS},
+			{"vnts_disable_relay", "", NULL, EVM_RESTART_VNTS},
 			{"vnts.log", "File", NULL, EVM_RESTART_VNTS},
 			{0,0,0,0}
 	};
@@ -1037,6 +1039,7 @@
 			{"vntcli_relay", "", NULL, EVM_RESTART_VNTCLI},
 			{"vntcli_wan", "", NULL, EVM_RESTART_VNTCLI},
 			{"vntcli_bin", "", NULL, EVM_RESTART_VNTCLI},
+			{"vntcli_disable_relay", "", NULL, EVM_RESTART_VNTCLI},
 			{"scripts.vnt.conf", "File", NULL, EVM_RESTART_VNTCLI},
 			{"vntcli_routenum_x", "", NULL, EVM_RESTART_VNTCLI},
 			{"VNTCLIroute", "Group", ARGV((char*)variables_VNTCLI_VNTCLIroute, "8", "55", "vntcli_routenum_x"), EVM_RESTART_VNTCLI},
@@ -1484,6 +1487,7 @@
 			{"easytier_web_bin", "", NULL, EVM_RESTART_EASYTIER},
 			{"easytier_uuid", "", NULL, EVM_RESTART_EASYTIER},
 			{"easytier_geoip", "", NULL, EVM_RESTART_EASYTIER},
+			{"easytier_extra_args", "", NULL, EVM_RESTART_EASYTIER},
 			{"scripts.easytier.toml", "File", NULL, EVM_RESTART_EASYTIER},
 			{0,0,0,0}
 	};

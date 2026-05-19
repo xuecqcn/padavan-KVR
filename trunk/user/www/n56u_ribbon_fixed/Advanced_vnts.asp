@@ -32,6 +32,8 @@ $j(document).ready(function() {
 	init_itoggle('vnts_web_enable',change_vnts_web_enable_bridge);
 	init_itoggle('vnts_web_wan');
 	init_itoggle('vnts_sfinger');
+	init_itoggle('vnts_disable_group');
+	init_itoggle('vnts_disable_relay');
 	$j("#tab_vnts_cfg, #tab_vnts_log").click(
 	function () {
 		var newHash = $j(this).attr('href').toLowerCase();
@@ -329,6 +331,34 @@ function button_vnts_web(){
 	<td style="border: 0 none;">
 	<textarea maxlength="1024" class="input" name="vnts_bin" id="vnts_bin" placeholder="/etc/storage/bin/vnts" style="width: 210px; height: 20px; resize: both; overflow: auto;"><% nvram_get_x("","vnts_bin"); %></textarea>
 	</div><br><span style="color:#888;">自定义程序的存放路径，填写完整的路径和程序名称</span>
+	</tr><td colspan="3"></td>
+	<tr id="vnts_disable_group_tr" >
+	<th style="border-top: 0 none;">禁止web界面显示组网列表</th>
+	<td style="border-top: 0 none;">
+	<div class="main_itoggle">
+	<div id="vnts_disable_group_on_of">
+	<input type="checkbox" id="vnts_disable_group_fake" <% nvram_match_x("", "vnts_disable_group", "1", "value=1 checked"); %><% nvram_match_x("", "vnts_disable_group", "0", "value=0"); %> />
+	</div>
+	</div>
+	<div style="position: absolute; margin-left: -10000px;">
+	<input type="radio" value="1" name="vnts_disable_group" id="vnts_disable_group_1" class="input" value="1" <% nvram_match_x("", "vnts_disable_group", "1", "checked"); %> /><#checkbox_Yes#>
+	<input type="radio" value="0" name="vnts_disable_group" id="vnts_disable_group_0" class="input" value="0" <% nvram_match_x("", "vnts_disable_group", "0", "checked"); %> /><#checkbox_No#>
+	</div><span style="color:#888;">禁止web界面显示所有组网token列表，启用后必须手动搜索正确的token才能查看</span></td>
+	</td>
+	</tr><td colspan="3"></td>
+	<tr id="vnts_disable_relay_tr" >
+	<th style="border-top: 0 none;">禁止中继转发</th>
+	<td style="border-top: 0 none;">
+	<div class="main_itoggle">
+	<div id="vnts_disable_relay_on_of">
+	<input type="checkbox" id="vnts_disable_relay_fake" <% nvram_match_x("", "vnts_disable_relay", "1", "value=1 checked"); %><% nvram_match_x("", "vnts_disable_relay", "0", "value=0"); %> />
+	</div>
+	</div>
+	<div style="position: absolute; margin-left: -10000px;">
+	<input type="radio" value="1" name="vnts_disable_relay" id="vnts_disable_relay_1" class="input" value="1" <% nvram_match_x("", "vnts_disable_relay", "1", "checked"); %> /><#checkbox_Yes#>
+	<input type="radio" value="0" name="vnts_disable_relay" id="vnts_disable_relay_0" class="input" value="0" <% nvram_match_x("", "vnts_disable_relay", "0", "checked"); %> /><#checkbox_No#>
+	</div><span style="color:#888;">禁止为客户端提供中继转发数据，仅交换客户端握手数据（客户端之间只能通过P2P进行连接，无法P2P时将无法通讯）</span></td>
+	</td>
 	</tr><td colspan="3"></td>
 	<tr id="vnts_log_tr" >
 	<th style="border-top: 0 none;">启用程序日志</th>

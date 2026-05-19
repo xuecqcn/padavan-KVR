@@ -480,7 +480,7 @@ function button_etweb(){
 	</td>
 	</tr><td colspan="3"></td>
 	<tr>
-	<th width="30%" style="border-top: 0 none;" title="-p   配置服务器的监听协议，用于被 easytier-core 连接, 可能的值：udp, tcp">监听协议</th>
+	<th width="30%" style="border-top: 0 none;" title="-p   配置服务器的监听协议，用于被 easytier-core 连接, 可能的值：udp, tcp, ws">监听协议</th>
 	<td style="border-top: 0 none;">
 	<input name="easytier_web_protocol" type="text" class="input" id="easytier_web_protocol" placeholder="udp" onkeypress="return is_string(this,event);" value="<% nvram_get_x("","easytier_web_protocol"); %>" size="32" maxlength="15" /></td>
 	</td>
@@ -508,6 +508,12 @@ function button_etweb(){
 	<th style="border: 0 none;" title="--geoip-db  数据库文件路径，用于查找客户端的位置，默认为嵌入文件（仅国家信息），推荐https://github.com/P3TERX/GeoLite.mmdb">IP数据库</th>
 	<td style="border: 0 none;">
 	<textarea maxlength="1024" class="input" name="easytier_geoip" id="easytier_geoip" placeholder="/etc/storage/easytier/GeoLite.mmdb" style="width: 210px; height: 20px; resize: both; overflow: auto;"><% nvram_get_x("","easytier_geoip"); %></textarea>
+	</div>
+	</tr><td colspan="3"></td>
+	<tr> 
+	<th style="border: 0 none;" title="你可以通过-h获取控制台程序的参数，这里可以添加上述没有的参数，例如：--disable-registration --allow-auto-create-user">额外参数</th>
+	<td style="border: 0 none;">
+	<textarea maxlength="1024" class="input" name="easytier_extra_args" id="easytier_extra_args" placeholder="--allow-auto-create-user" style="width: 210px; height: 20px; resize: both; overflow: auto;"><% nvram_get_x("","easytier_extra_args"); %></textarea>
 	</div>
 	</tr><td colspan="3"></td>
 	<tr> 
@@ -565,15 +571,15 @@ function button_etweb(){
 	<tr>
 		<td colspan="5" style="border-top: 0 none; text-align: center;">
 			<!-- 按钮并排显示 -->
-			<input class="btn btn-success" id="btn_peer" style="width:100px; margin-right: 10px;" type="button" name="et_peer" value="对等节点信息" onclick="button_et_peer()" />
-			<input class="btn btn-success" id="btn_connector" style="width:100px; margin-right: 10px;" type="button" name="et_connector" value="管理连接器" onclick="button_et_connector()" />
-		<input class="btn btn-success" id="btn_stun" style="width:100px; margin-right: 10px;" type="button" name="et_stun" value="STUN 测试" onclick="button_et_stun()" />
-			<input class="btn btn-success" id="btn_route" style="width:100px; margin-right: 10px;" type="button" name="et_route" value="显示路由信息" onclick="button_et_route()" />
-			<input class="btn btn-success" id="btn_peer_center" style="width:100px; margin-right: 10px;" type="button" name="et_peer_center" value="全局对等信息" onclick="button_et_peer_center()" />
+			<input class="btn btn-success" id="btn_peer" style="width:100px; margin-right: 10px;" type="button" name="et_peer" value="节点信息" onclick="button_et_peer()" />
+			<input class="btn btn-success" id="btn_connector" style="width:100px; margin-right: 10px;" type="button" name="et_connector" value="连接器" onclick="button_et_connector()" />
+		<input class="btn btn-success" id="btn_stun" style="width:100px; margin-right: 10px;" type="button" name="et_stun" value="STUN 信息" onclick="button_et_stun()" />
+			<input class="btn btn-success" id="btn_route" style="width:100px; margin-right: 10px;" type="button" name="et_route" value="路由信息" onclick="button_et_route()" />
+			<input class="btn btn-success" id="btn_peer_center" style="width:100px; margin-right: 10px;" type="button" name="et_peer_center" value="全局节点" onclick="button_et_peer_center()" />
 			<input class="btn btn-success" id="btn_vpn_portal" style="width:100px; margin-right: 10px;" type="button" name="et_vpn_portal" value="WireGuard信息" onclick="button_et_vpn_portal()" />
-			<input class="btn btn-success" id="btn_node" style="width:100px; margin-right: 10px;" type="button" name="et_node" value="本机核心信息" onclick="button_et_node()" />
-			<input class="btn btn-success" id="btn_proxy" style="width:100px; margin-right: 10px;" type="button" name="et_proxy" value="TCP/KCP代理" onclick="button_et_proxy()" />
-			<input class="btn btn-success" id="btn_status" style="width:100px; margin-right: 10px;" type="button" name="et_status" value="运行状态信息" onclick="button_et_status()" />
+			<input class="btn btn-success" id="btn_node" style="width:100px; margin-right: 10px;" type="button" name="et_node" value="本机信息" onclick="button_et_node()" />
+			<input class="btn btn-success" id="btn_proxy" style="width:100px; margin-right: 10px;" type="button" name="et_proxy" value="代理信息" onclick="button_et_proxy()" />
+			<input class="btn btn-success" id="btn_status" style="width:100px; margin-right: 10px;" type="button" name="et_status" value="运行状态" onclick="button_et_status()" />
 		</td>
 	</tr>
 	<tr>

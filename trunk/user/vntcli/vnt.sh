@@ -25,6 +25,7 @@ vntcli_punch="$(nvram get vntcli_punch)"
 vntcli_comp="$(nvram get vntcli_comp)"
 vntcli_relay="$(nvram get vntcli_relay)"
 vntcli_wan="$(nvram get vntcli_wan)"
+vntcli_disable_relay="$(nvram get vntcli_disable_relay)"
 
 user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
 github_proxys="$(nvram get github_proxy)"
@@ -200,7 +201,7 @@ start_vntcli() {
  	if [ ! -f "$VNTCLI" ] ; then
 		logger -t "【VNT客户端】" "主程序${VNTCLI}不存在，开始在线下载..."
   		[ ! -d /etc/storage/bin ] && mkdir -p /etc/storage/bin
-  		[ -z "$tag" ] && tag="v1.2.16"
+  		[ -z "$tag" ] && tag="v1.2.17"
   		dowload_vntcli $tag
   	fi
 	sed -Ei '/【VNT客户端】|^$/d' /tmp/script/_opt_script_check
@@ -322,6 +323,7 @@ EOF
 	[ "$vntcli_punch" = "0" ] || CMD="${CMD} --punch ${vntcli_punch}"
 	[ "$vntcli_comp" = "0" ] || CMD="${CMD} --compressor ${vntcli_comp}"
 	[ "$vntcli_relay" = "0" ] || CMD="${CMD} --use-channel ${vntcli_relay}"
+	[ "$vntcli_disable_relay" = "0" ] || CMD="${CMD} --disable-relay"
 	mappnum=`nvram get vntcli_mappnum_x`
 	for m in $(seq 1 $mappnum)
 	do

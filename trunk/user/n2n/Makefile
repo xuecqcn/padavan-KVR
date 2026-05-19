@@ -11,6 +11,5 @@ clean:
 
 romfs:
 	$(ROMFSINST) -p +x $(THISDIR)/edge /usr/bin/edge
-	$(ROMFSINST) -p +x $(THISDIR)/n2n-benchmark /usr/bin/n2n-benchmark
 	$(ROMFSINST) -p +x $(THISDIR)/supernode /usr/bin/supernode
 

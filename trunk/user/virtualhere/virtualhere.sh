@@ -73,6 +73,9 @@ start_vhusbd() {
 	logg "正在启动$vhusbd_bin"
  	if [ -f "$vhusbd_bin" ] ; then
 		[ ! -x "$vhusbd_bin" ] && chmod +x $vhusbd_bin
+	else
+		curl -Lko "$vhusbd_bin" --retry 3 --retry-delay 2 https://www.virtualhere.com/sites/default/files/usbserver/vhusbdmipsel || wget -O "$vhusbd_bin" --no-check-certificate https://www.virtualhere.com/sites/default/files/usbserver/vhusbdmipsel
+		[ ! -x "$vhusbd_bin" ] && chmod +x $vhusbd_bin
   	fi
  	if [ ! -f "$vhusbd_bin" ] || [[ "$($vhusbd_bin -h 2>&1 | wc -l)" -lt 2 ]] ; then
 		logg "程序${vhusbd_bin}不存在或不完整 不支持此架构，请下载上传后重试！"

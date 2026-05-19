@@ -13,6 +13,8 @@ vnts_web_port="$(nvram get vnts_web_port)"
 vnts_web_user="$(nvram get vnts_web_user)"
 vnts_web_pass="$(nvram get vnts_web_pass)"
 vnts_web_wan=$(nvram get vnts_web_wan)
+vnts_disable_group=$(nvram get vnts_disable_group)
+vnts_disable_relay=$(nvram get vnts_disable_relay)
 [ -z "$vnts_port" ] && vnts_port="29872" && nvram set vnts_port=$vnts_port
 [ -z "$vnts_web_port" ] && vnts_web_port="29870" && nvram set vnts_web_port=$vnts_web_port
 user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
@@ -53,11 +55,11 @@ get_tag() {
 	curltest=`which curl`
 	logger -t "【VNT服务端】" "开始获取最新版本..."
     	if [ -z "$curltest" ] || [ ! -s "`which curl`" ] ; then
-      		tag="$( wget --no-check-certificate -T 5 -t 3 --user-agent "$user_agent" --max-redirect=0 --output-document=-  https://api.github.com/repos/lmq8267/vnts/releases/latest 2>&1 | grep 'tag_name' | cut -d\" -f4 )"
-	 	[ -z "$tag" ] && tag="$( wget --no-check-certificate -T 5 -t 3 --user-agent "$user_agent" --quiet --output-document=-  https://api.github.com/repos/lmq8267/vnts/releases/latest  2>&1 | grep 'tag_name' | cut -d\" -f4 )"
+      		tag="$( wget --no-check-certificate -T 5 -t 3 --user-agent "$user_agent" --max-redirect=0 --output-document=-  https://api.github.com/repos/lmq8267/vnt_s/releases/latest 2>&1 | grep 'tag_name' | cut -d\" -f4 )"
+	 	[ -z "$tag" ] && tag="$( wget --no-check-certificate -T 5 -t 3 --user-agent "$user_agent" --quiet --output-document=-  https://api.github.com/repos/lmq8267/vnt_s/releases/latest  2>&1 | grep 'tag_name' | cut -d\" -f4 )"
     	else
-      		tag="$( curl -k --connect-timeout 3 --user-agent "$user_agent"  https://api.github.com/repos/lmq8267/vnts/releases/latest 2>&1 | grep 'tag_name' | cut -d\" -f4 )"
-       	[ -z "$tag" ] && tag="$( curl -Lk --connect-timeout 3 --user-agent "$user_agent" -s  https://api.github.com/repos/lmq8267/vnts/releases/latest  2>&1 | grep 'tag_name' | cut -d\" -f4 )"
+      		tag="$( curl -k --connect-timeout 3 --user-agent "$user_agent"  https://api.github.com/repos/lmq8267/vnt_s/releases/latest 2>&1 | grep 'tag_name' | cut -d\" -f4 )"
+       	[ -z "$tag" ] && tag="$( curl -Lk --connect-timeout 3 --user-agent "$user_agent" -s  https://api.github.com/repos/lmq8267/vnt_s/releases/latest  2>&1 | grep 'tag_name' | cut -d\" -f4 )"
         fi
 	[ -z "$tag" ] && logger -t "【VNT服务端】" "无法获取最新版本" 
 	nvram set vnts_ver_n=$tag
@@ -76,14 +78,14 @@ dowload_vnts() {
 	tag="$1"
 	bin_path=$(dirname "$VNTS")
 	[ ! -d "$bin_path" ] && mkdir -p "$bin_path"
-	logger -t "【VNT服务端】" "开始下载 https://github.com/lmq8267/vnts/releases/download/${tag}/vnts_mipsel-unknown-linux-musl 到 $VNTS"
+	logger -t "【VNT服务端】" "开始下载 https://github.com/lmq8267/vnt_s/releases/download/${tag}/vnts_mipsel-unknown-linux-musl 到 $VNTS"
 	for proxy in $github_proxys ; do
- 	length=$(wget --no-check-certificate -T 5 -t 3 "${proxy}https://github.com/lmq8267/vnts/releases/download/${tag}/vnts_mipsel-unknown-linux-musl" -O /dev/null --spider --server-response 2>&1 | grep "[Cc]ontent-[Ll]ength" | grep -Eo '[0-9]+' | tail -n 1)
+ 	length=$(wget --no-check-certificate -T 5 -t 3 "${proxy}https://github.com/lmq8267/vnt_s/releases/download/${tag}/vnts_mipsel-unknown-linux-musl" -O /dev/null --spider --server-response 2>&1 | grep "[Cc]ontent-[Ll]ength" | grep -Eo '[0-9]+' | tail -n 1)
  	length=`expr $length + 512000`
 	length=`expr $length / 1048576`
  	vnts_size0="$(check_disk_size $bin_path)"
  	[ ! -z "$length" ] && logger -t "【VNT服务端】" "程序大小 ${length}M， 程序路径可用空间 ${vnts_size0}M "
-        curl -Lko "$VNTS" "${proxy}https://github.com/lmq8267/vnts/releases/download/${tag}/vnts_mipsel-unknown-linux-musl" || wget --no-check-certificate -O "$VNTS" "${proxy}https://github.com/lmq8267/vnts/releases/download/${tag}/vnts_mipsel-unknown-linux-musl"
+        curl -Lko "$VNTS" "${proxy}https://github.com/lmq8267/vnt_s/releases/download/${tag}/vnts_mipsel-unknown-linux-musl" || wget --no-check-certificate -O "$VNTS" "${proxy}https://github.com/lmq8267/vnt_s/releases/download/${tag}/vnts_mipsel-unknown-linux-musl"
 	if [ "$?" = 0 ] ; then
 		chmod +x $VNTS
   		if [[ "$($VNTS -h 2>&1 | wc -l)" -gt 3 ]] ; then
@@ -96,11 +98,11 @@ dowload_vnts() {
 			fi
 			break
    		else
-     			logger -t "【VNT服务端】" "下载失败，请手动下载 ${proxy}https://github.com/lmq8267/vnts/releases/download/${tag}/vnts_mipsel-unknown-linux-musl 上传到  $VNTS"
+     			logger -t "【VNT服务端】" "下载失败，请手动下载 ${proxy}https://github.com/lmq8267/vnt_s/releases/download/${tag}/vnts_mipsel-unknown-linux-musl 上传到  $VNTS"
 			rm -rf $VNTS
   		fi
 	else
-		logger -t "【VNT服务端】" "下载失败，请手动下载 ${proxy}https://github.com/lmq8267/vnts/releases/download/${tag}/vnts_mipsel-unknown-linux-musl 上传到  $VNTS"
+		logger -t "【VNT服务端】" "下载失败，请手动下载 ${proxy}https://github.com/lmq8267/vnt_s/releases/download/${tag}/vnts_mipsel-unknown-linux-musl 上传到  $VNTS"
    	fi
 	done
 }
@@ -222,6 +224,8 @@ EOF
 	else
 		CMD="${CMD} -P 0"
 	fi
+	[ "$vnts_disable_group" = "1" ] && CMD="${CMD} --disable-group-list"
+	[ "$vnts_disable_relay" = "1" ] && CMD="${CMD} --disable-relay"
 	[ "$vnts_log" = "1" ] || CMD="${CMD} -l /dev/null"
 	
 	vntscmd="cd ${path} ; ./vnts ${CMD} >/tmp/vnts.log 2>&1"

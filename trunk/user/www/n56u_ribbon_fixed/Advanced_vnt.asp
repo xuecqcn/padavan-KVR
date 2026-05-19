@@ -33,6 +33,7 @@ $j(document).ready(function() {
 	init_itoggle('vntcli_first');
 	init_itoggle('vntcli_finger');
 	init_itoggle('vntcli_serverw');
+	init_itoggle('vntcli_disable_relay');
 	$j("#tab_vntcli_cfg, #tab_vntcli_pri, #tab_vntcli_sta, #tab_vntcli_log, #tab_vntcli_help").click(
 	function () {
 		var newHash = $j(this).attr('href').toLowerCase();
@@ -187,6 +188,8 @@ function change_vntcli_enable(mflag){
 		showhide_div("vntcli_relay_td", 0);
 		showhide_div("vntcli_ip_tr", 0);
 		showhide_div("vntcli_ip_td", 0);
+		showhide_div("vntcli_disable_relay_tr", 0);
+		showhide_div("vntcli_disable_relay_td", 0);
 	
 		showhide_div("vntcli_mapping_table", 0);
 	} 
@@ -241,6 +244,8 @@ function change_vntcli_enable(mflag){
 		showhide_div("vntcli_relay_td", 1);
 		showhide_div("vntcli_ip_tr", 1);
 		showhide_div("vntcli_ip_td", 1);
+		showhide_div("vntcli_disable_relay_tr", 1);
+		showhide_div("vntcli_disable_relay_td", 1);
 	
 		showhide_div("vntcli_mapping_table", 1);
 		o_mtu = document.form.vntcli_mtu;
@@ -833,6 +838,20 @@ function button_vntcli_status() {
 	</select><br>⚠️&nbsp;<span style="color:#888;">无法P2P的网络下选择仅P2P直连将会无法连接对端</span>
 	</td>
 	</tr><td colspan="3" id="vntcli_relay_td"></td>
+	<tr id="vntcli_disable_relay_tr">
+	<th style="border-top: 0 none;">禁止为客户端中继</th>
+	<td style="border-top: 0 none;">
+	<div class="main_itoggle">
+	<div id="vntcli_disable_relay_on_of">
+	<input type="checkbox" id="vntcli_disable_relay_fake" <% nvram_match_x("", "vntcli_disable_relay", "1", "value=1 checked"); %><% nvram_match_x("", "vntcli_disable_relay", "0", "value=0"); %> />
+	</div>
+	</div>
+	<div style="position: absolute; margin-left: -10000px;">
+	<input type="radio" value="1" name="vntcli_disable_relay" id="vntcli_disable_relay_1" class="input" value="1" <% nvram_match_x("", "vntcli_disable_relay", "1", "checked"); %> /><#checkbox_Yes#>
+	<input type="radio" value="0" name="vntcli_disable_relay" id="vntcli_disable_relay_0" class="input" value="0" <% nvram_match_x("", "vntcli_disable_relay", "0", "checked"); %> /><#checkbox_No#>
+	</div>
+	</td>
+	</tr><td colspan="2" id="vntcli_disable_relay_td"></td>
 	<tr>
 	<th style="border: 0 none;">程序路径</th>
 	<td style="border: 0 none;">
@@ -1140,6 +1159,14 @@ function button_vntcli_status() {
         </td>
         <td style="color: white; width: 85%; text-align: left;">
  	【--use-channel】自动选择：自动判断合适的传输方式，优先P2P直连，无法直连的网络环境会采用服务器中继转发或其他客户端中继转发<br>仅中继转发：将不使用P2P直连，只使用服务器或客户端进行转发数据<br>仅P2P直连：只使用P2P直连进行传输，不使用服务器或其他客户端进行中继转发，如果网络环境无法P2P直连，将断开连接无法通讯。
+        </td>
+	</tr>
+	<tr style="border-bottom: 1px solid #ccc;">
+	<td style="color: yellow; width: 15%; padding-right: 10px; text-align: left;">
+	禁止为客户端中继
+        </td>
+        <td style="color: white; width: 85%; text-align: left;">
+ 	【--disable-relay】启用后将禁止为其他客户端转发数据,本机将不作为中继节点。默认会为其他客户端进行中继转发流量。
         </td>
 	</tr>
 	<tr>
